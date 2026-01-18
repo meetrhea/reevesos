@@ -1,6 +1,6 @@
 # Home Mac Setup
 
-The Home Mac is the always-on data appliance that runs Reeves OS.
+The Home Mac is the always-on data appliance that runs Reeves OS. It **stays at home** and is accessed remotely via Tailscale from thin clients.
 
 ## Hardware
 
@@ -9,11 +9,12 @@ The Home Mac is the always-on data appliance that runs Reeves OS.
 ```
 Mac Mini M4 Pro
 ├── 48GB Unified Memory
-├── 512GB SSD
-└── ~$2,199
+├── 1TB SSD
+└── ~$1,999
 ```
 
 This configuration supports:
+
 - Multiple 7-13B models simultaneously
 - Quantized 70B models for complex tasks
 - RAG with embeddings in memory
@@ -23,7 +24,7 @@ This configuration supports:
 
 ```
 Do you want a self-sufficient local AI workstation?
-├── YES → Mac Mini M4 Pro 48GB ($2,199) ← RECOMMENDED
+├── YES → Mac Mini M4 Pro 48GB ($1,999) ← RECOMMENDED
 └── NO ↓
 
 Is budget the primary constraint?
@@ -32,7 +33,7 @@ Is budget the primary constraint?
 
 Do you want maximum local capability (70B+ models)?
 ├── YES → Mac Studio 64GB+ ($3,999+)
-└── OTHERWISE → Mac Mini M4 Pro 48GB ($2,199)
+└── OTHERWISE → Mac Mini M4 Pro 48GB ($1,999)
 ```
 
 ### Storage Strategy
@@ -40,14 +41,16 @@ Do you want maximum local capability (70B+ models)?
 Internal SSD is not upgradeable, but you can add external:
 
 | Storage Type | Use Case | Cost |
-|--------------|----------|------|
-| Internal (512GB) | OS, apps, hot models | Included |
-| Thunderbolt 4 SSD | Active models, caches | $150-400 |
+|-------------|----------|------|
+| Internal (1TB) | OS, apps, hot models | Included |
+| Thunderbolt 5 SSD | Active models, caches | $150-400 |
 | USB-C HDD | Bulk storage, backups | $100-200 |
 
 **Photos Library** can be pointed to external drive if needed.
 
-## Day 1 Setup Checklist
+---
+
+## Day 1 Setup Checklist (Home Mac)
 
 ### Initial Setup (with monitor/keyboard)
 
@@ -63,9 +66,9 @@ Internal SSD is not upgradeable, but you can add external:
 
 ```
 □ System Settings → General → Sharing
-  □ Enable "Remote Login" (SSH)
-  □ Enable "Screen Sharing" (VNC)
-  □ Note the IP address shown
+□ Enable "Remote Login" (SSH)
+□ Enable "Screen Sharing" (VNC)
+□ Note the IP address shown
 ```
 
 ### Network Configuration
@@ -127,8 +130,7 @@ EOF
 mkdir -p ~/repos
 
 # Clone tosh
-git clone <your-tosh-repo> ~/repos/tosh
-
+git clone <repo-url> ~/repos/tosh
 cd ~/repos/tosh
 
 # Create virtual environment
@@ -150,6 +152,7 @@ cp tosh/config.example.yaml tosh/config.yaml
 cp tosh/scripts/com.tosh.daemon.plist ~/Library/LaunchAgents/
 
 # Edit plist to point to correct paths
+
 # Load daemon
 launchctl load ~/Library/LaunchAgents/com.tosh.daemon.plist
 
@@ -168,21 +171,91 @@ brew install --cask backblaze
 # Sign up at backblaze.com, ~$5/mo
 ```
 
+### Test Remote Access BEFORE Going Headless
+
+```
+□ From another device, verify SSH works: ssh user@100.x.x.x
+□ Verify Screen Sharing works (for GUI access)
+□ Verify Tailscale is connected and accessible
+```
+
 ### Go Headless
 
 ```
-□ Verify SSH works from laptop: ssh user@100.x.x.x
-□ Verify Screen Sharing works (just in case)
 □ Disconnect monitor and keyboard
-□ Move Mac Mini to permanent location
+□ Move Mac Mini to permanent location (near router if possible)
+□ Verify remote access still works
 ```
+
+---
+
+## Thin Client Setup (NEW)
+
+The thin client is a cheap, disposable laptop used only for remote access to the Home Mac. It contains **no sensitive data**.
+
+### Requirements
+
+- Any laptop that runs Tailscale (Linux, macOS, ChromeOS, Windows)
+- ~$300-500 budget (used ThinkPad, Chromebook, etc.)
+- Full-disk encryption enabled
+
+### Day 1: Minimal Setup
+
+```
+□ Enable full-disk encryption (FileVault, BitLocker, or LUKS)
+□ Install Tailscale (https://tailscale.com/download)
+□ Sign into Tailscale with your personal account
+□ Install SSH client (already included on Mac/Linux)
+□ Install a screen sharing client (optional, for GUI access)
+```
+
+### Day 2: Test Access
+
+```bash
+# Test SSH to Home Mac
+ssh user@100.x.x.x
+
+# You should now be on your Home Mac
+ollama list  # Should show your models
+psql reeves -c "SELECT count(*) FROM bronze.apple_messages;"
+```
+
+### What NOT to Install
+
+- [ ] No password manager app (use web vault if absolutely needed)
+- [ ] No personal files or documents
+- [ ] No work files or documents
+- [ ] No credentials stored in browser
+- [ ] No SSH keys (you'll SSH through Tailscale's auth)
+- [ ] No API tokens or secrets
+- [ ] No personal Apple ID sign-in
+- [ ] No work Apple ID sign-in
+
+### If Lost/Stolen
+
+1. Go to Tailscale admin console
+2. Remove the device
+3. Buy a new cheap laptop
+4. Reinstall Tailscale
+5. Done - no data breach, no secrets exposed
+
+### Recommended Thin Clients
+
+| Device | Price | Notes |
+|--------|-------|-------|
+| Used ThinkPad X1 Carbon | ~$300-400 | Great keyboard, Linux-friendly |
+| Chromebook with Linux | ~$250-350 | Ultra-minimal attack surface |
+| Base M1 MacBook Air (refurb) | ~$700-800 | If you want macOS consistency |
+| Any laptop with Tailscale | ~$200+ | It just needs to run SSH |
+
+---
 
 ## Ongoing Maintenance
 
 ### Check Health
 
 ```bash
-# SSH in
+# SSH in from thin client
 ssh homemac
 
 # Check tosh daemon
@@ -210,5 +283,28 @@ brew update && brew upgrade
 # Update tosh
 cd ~/repos/tosh && git pull
 ```
+
+---
+
+## Troubleshooting
+
+### Can't SSH to Home Mac
+
+1. Check Tailscale is running on both devices
+2. Verify both devices are on the same Tailnet
+3. Try `tailscale ping homemac` to test connectivity
+4. Check that SSH is enabled: System Settings → General → Sharing → Remote Login
+
+### Home Mac is offline
+
+1. Check power and network at home
+2. Have someone at home verify the Mac Mini is running
+3. If needed, connect a monitor to diagnose
+
+### Tailscale not connecting
+
+1. Check internet connectivity on both sides
+2. Try `tailscale status` to see connection state
+3. Restart Tailscale: `sudo tailscale down && sudo tailscale up`
 
 [Back to Status →](status.md)
