@@ -40,7 +40,7 @@
 
 | Item | Spec | Price | Notes |
 |------|------|-------|-------|
-| **iPhone 16** | 128GB | **$729** | Minimal storage needed. Work number/auth apps only |
+| **iPhone 16 Plus** | 256GB Black (Unlocked) | **$929** | Minimal storage needed. Work number/auth apps only |
 
 ### To Buy: Travel Thin Client
 
@@ -136,12 +136,12 @@ Adding a second Spectrum line is simplest since you already have Spectrum Intern
 | Item | Price |
 |------|-------|
 | Mac Mini M4 Pro 64GB | $2,599 |
-| iPhone 16 128GB (work) | $729 |
+| iPhone 16 Plus 256GB (work) | $929 |
 | Travel Thin Client | ~$400 |
 | Studio Display (optional) | $1,599 |
 | Magic Keyboard + Trackpad (optional) | $348 |
-| **TOTAL (essential only)** | **~$3,730** |
-| **TOTAL (with display/accessories)** | **~$5,675** |
+| **TOTAL (essential only)** | **~$3,928** |
+| **TOTAL (with display/accessories)** | **~$5,875** |
 
 ### Monthly Recurring
 
