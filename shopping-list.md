@@ -32,7 +32,7 @@
 
 | Item | Spec | Price | Notes |
 |------|------|-------|-------|
-| **Mac Mini M4 Pro** | 48GB / 1TB SSD | **$1,999** | Per Reeves OS spec. B&H often has $150-200 off |
+| **Mac Mini M4 Pro** | 64GB / 2TB SSD | **$2,599** | Per Reeves OS spec. B&H often has $150-200 off |
 
 **Note:** This Mac stays at home. All remote access via Tailscale.
 
@@ -135,13 +135,13 @@ Adding a second Spectrum line is simplest since you already have Spectrum Intern
 
 | Item | Price |
 |------|-------|
-| Mac Mini M4 Pro 48GB | $1,999 |
+| Mac Mini M4 Pro 64GB | $2,599 |
 | iPhone 16 128GB (work) | $799 |
 | Travel Thin Client | ~$400 |
 | Studio Display (optional) | $1,599 |
 | Magic Keyboard + Trackpad (optional) | $348 |
-| **TOTAL (essential only)** | **~$3,200** |
-| **TOTAL (with display/accessories)** | **~$5,145** |
+| **TOTAL (essential only)** | **~$3,800** |
+| **TOTAL (with display/accessories)** | **~$5,745** |
 
 ### Monthly Recurring
 
