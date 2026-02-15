@@ -1,3 +1,7 @@
+> **⚠️ DEPRECATED** — This repo is archived as of February 2026. Infrastructure and architecture documentation now lives in [reeves-planning](https://github.com/dshanklinbv/reeves-planning). The Mac-only thesis and data source inventory remain valid references but are maintained there going forward.
+
+---
+
 # Reeves OS
 
 **Your Mac is the key to building a powerful personal AI system.**
@@ -44,6 +48,7 @@ Data never leaves your home. Maximum privacy.
 | [Setup](setup.md) | Hardware specs, Day 1 checklist |
 | [Data Sources](data-sources.md) | What can be synced (~100k+ records) |
 | [Status](status.md) | Current progress, decision log |
+| [Agent Projects](agent-projects.md) | Satellite projects extending Reeves |
 
 ## AI Collaboration
 
